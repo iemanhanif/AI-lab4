@@ -1,0 +1,134 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "b0fd2868-58ca-4b42-b0e5-901257ed4447",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Prediction: The person will play.\n",
+      "Model accuracy: 50.00%\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "C:\\ProgramData\\anaconda3\\Lib\\site-packages\\sklearn\\base.py:439: UserWarning: X does not have valid feature names, but GaussianNB was fitted with feature names\n",
+      "  warnings.warn(\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "from sklearn.naive_bayes import GaussianNB\n",
+    "from sklearn.model_selection import train_test_split\n",
+    "from sklearn.metrics import accuracy_score\n",
+    "\n",
+    "# Step 1: Create the dataset\n",
+    "data = {\n",
+    "    'Age Group': ['youth', 'youth', 'youth', 'medium', 'medium', 'senior', 'senior', 'senior'],\n",
+    "    'Income': ['high', 'high', 'medium', 'medium', 'high', 'low', 'low', 'high'],\n",
+    "    'Student': ['yes', 'yes', 'no', 'yes', 'yes', 'yes', 'no', 'no'],\n",
+    "    'Credit Rating': ['fair', 'excellent', 'fair', 'fair', 'fair', 'fair', 'excellent', 'excellent'],\n",
+    "    'Play': ['yes', 'yes', 'no', 'yes', 'yes', 'no', 'no', 'yes']\n",
+    "}\n",
+    "\n",
+    "# Step 2: Create DataFrame\n",
+    "df = pd.DataFrame(data)\n",
+    "\n",
+    "# Step 3: Encoding categorical variables\n",
+    "# Encoding 'Play' as 1 (yes) and 0 (no)\n",
+    "df['Play'] = df['Play'].map({'yes': 1, 'no': 0})\n",
+    "\n",
+    "# Encoding 'Age Group', 'Income', 'Student', and 'Credit Rating' as integers\n",
+    "df['Age Group'] = df['Age Group'].map({'youth': 0, 'medium': 1, 'senior': 2})\n",
+    "df['Income'] = df['Income'].map({'low': 0, 'medium': 1, 'high': 2})\n",
+    "df['Student'] = df['Student'].map({'no': 0, 'yes': 1})\n",
+    "df['Credit Rating'] = df['Credit Rating'].map({'fair': 0, 'excellent': 1})\n",
+    "\n",
+    "# Step 4: Define features and target\n",
+    "X = df[['Age Group', 'Income', 'Student', 'Credit Rating']]  # Features\n",
+    "y = df['Play']  # Target variable: Play (yes/no)\n",
+    "\n",
+    "# Step 5: Train Naïve Bayes model\n",
+    "model = GaussianNB()\n",
+    "model.fit(X, y)\n",
+    "\n",
+    "# Step 6: Make a prediction\n",
+    "# Let's predict for a sample where Age Group = medium, Income = high, Student = yes, Credit Rating = fair\n",
+    "sample_data = [[1, 2, 1, 0]]  # Medium age, High income, Student = yes, Credit Rating = fair\n",
+    "\n",
+    "prediction = model.predict(sample_data)\n",
+    "\n",
+    "# Step 7: Output the prediction\n",
+    "if prediction == 1:\n",
+    "    print(\"Prediction: The person will play.\")\n",
+    "else:\n",
+    "    print(\"Prediction: The person will not play.\")\n",
+    "    # Step 8: Split the dataset into training and testing sets\n",
+    "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n",
+    "\n",
+    "# Step 9: Train the model again using the training data\n",
+    "model.fit(X_train, y_train)\n",
+    "\n",
+    "# Step 10: Make predictions on the test set\n",
+    "y_pred = model.predict(X_test)\n",
+    "\n",
+    "# Step 11: Evaluate the model's accuracy\n",
+    "accuracy = accuracy_score(y_test, y_pred)\n",
+    "print(f\"Model accuracy: {accuracy * 100:.2f}%\")\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f541c269-f6a5-4899-8b91-e572d666db0a",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b8ec64a6-15f8-4d29-8a23-9378a765df5e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6c1ed303-9a5d-425a-a1ac-db343181b995",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
